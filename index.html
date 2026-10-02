@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="前后端分离计算器：Vue3 + Vite 前端，FastAPI + SQLite 后端，表达式计算全部由后端完成。"
+    />
+    <title>计算器 · 前后端分离演示</title>
+    <style>
+      /* 首屏骨架：等 JS 加载完再被 Vue 接管，避免白屏 */
+      #app-loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font: 500 15px/1.6 system-ui, -apple-system, 'Segoe UI', sans-serif;
+        color: #64748b;
+        background: #f1f5f9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"><div id="app-loading">正在加载计算器界面…</div></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

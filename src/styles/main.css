@@ -1,0 +1,293 @@
+/**
+ * 全局样式入口。
+ *
+ * 组织方式：
+ *   1. 设计令牌（CSS 变量）—— 浅色 / 深色两套，主题切换只换 data-theme；
+ *   2. 基础重置与排版；
+ *   3. 页面骨架（app-shell / layout / app-footer）；
+ *   4. 可复用组件类（card / btn / tag）；
+ *   5. 滚动条等细节。
+ * 组件私有样式一律写在各自 .vue 的 <style scoped> 里，避免全局污染。
+ */
+
+/* ============================================================ 1. 设计令牌 */
+:root {
+  --font-sans:
+    system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB',
+    sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Mono', Consolas, 'Courier New', monospace;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --bg: #eef2f8;
+  --bg-accent: radial-gradient(1100px 520px at 12% -8%, #dbeafe 0%, transparent 60%),
+    radial-gradient(900px 480px at 105% 0%, #e0e7ff 0%, transparent 55%);
+  --panel: #ffffff;
+  --panel-muted: #f8fafc;
+  --border: #e3e8ef;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --text-muted: #64748b;
+
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: #e0ecff;
+  --success: #059669;
+  --danger: #dc2626;
+  --warning: #d97706;
+
+  --shadow-card: 0 20px 45px -30px rgba(15, 23, 42, 0.55);
+
+  --key-bg: #ffffff;
+  --key-bg-hover: #f1f5f9;
+  --key-operator-bg: #eff6ff;
+  --key-function-bg: #f1f5f9;
+
+  --display-bg: linear-gradient(158deg, #0f172a 0%, #1e293b 100%);
+  --display-border: #1e293b;
+  --display-text: #e2e8f0;
+  --display-label: #94a3b8;
+  --display-accent: #7dd3fc;
+  --display-split: rgba(148, 163, 184, 0.25);
+}
+
+html[data-theme='dark'] {
+  --bg: #070b16;
+  --bg-accent: radial-gradient(1100px 520px at 10% -10%, #16255a 0%, transparent 60%),
+    radial-gradient(900px 480px at 105% 0%, #1e1b4b 0%, transparent 55%);
+  --panel: #0f172a;
+  --panel-muted: #131c30;
+  --border: #22304a;
+  --border-strong: #33456a;
+  --text: #e8edf7;
+  --text-muted: #93a3bd;
+
+  --accent: #3b82f6;
+  --accent-strong: #7cb2ff;
+  --accent-soft: #17274a;
+  --success: #34d399;
+  --danger: #f87171;
+  --warning: #fbbf24;
+
+  --shadow-card: 0 24px 55px -34px rgba(0, 0, 0, 0.9);
+
+  --key-bg: #16203a;
+  --key-bg-hover: #1d2a49;
+  --key-operator-bg: #1b2b4d;
+  --key-function-bg: #1a2338;
+
+  --display-bg: linear-gradient(158deg, #060a14 0%, #111c33 100%);
+  --display-border: #22304a;
+  --display-text: #e8edf7;
+  --display-label: #8b9bb8;
+  --display-accent: #7dd3fc;
+  --display-split: rgba(148, 163, 184, 0.18);
+}
+
+/* ============================================================ 2. 基础重置 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image: var(--bg-accent);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: var(--accent-strong);
+}
+
+/* ============================================================ 3. 页面骨架 */
+.app-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 26px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    padding: 16px 12px 30px;
+    gap: 14px;
+  }
+}
+
+.app-footer {
+  margin-top: 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  box-shadow: var(--shadow-card);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.app-footer__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-footer__line + .app-footer__line {
+  margin-top: 8px;
+}
+
+.app-footer__line--links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--border-strong);
+}
+
+.app-footer__line--links a:hover {
+  color: var(--accent-strong);
+  border-color: var(--accent);
+}
+
+/* ============================================================ 4. 可复用类 */
+.card {
+  padding: 20px 22px 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  box-shadow: var(--shadow-card);
+}
+
+.card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.card__subtitle {
+  margin: 5px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.btn {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel-muted);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    color 0.16s ease,
+    background 0.16s ease;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn--ghost {
+  background: transparent;
+}
+
+.btn--danger {
+  color: var(--danger);
+}
+
+.btn--danger:hover:not(:disabled) {
+  border-color: var(--danger);
+}
+
+.btn--danger-solid {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+
+/* ============================================================ 5. 细节 */
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+  background-color: var(--border-strong);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
